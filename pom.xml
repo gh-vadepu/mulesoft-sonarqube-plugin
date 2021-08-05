@@ -1,0 +1,109 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.mulesoft.services</groupId>
+	<artifactId>mule-validation-sonarqube-plugin</artifactId>
+	<version>1.0.5</version>
+	<packaging>jar</packaging>
+
+	<url>http://maven.apache.org</url>
+	<description>Sonar Plugin for Mule Projects</description>
+
+
+	<properties>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<sonar.apiVersion>7.7</sonar.apiVersion>
+		<jaxb.api.version>2.3.3</jaxb.api.version>
+		<jaxb.version>2.3.2</jaxb.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.sonarsource.sonarqube</groupId>
+			<artifactId>sonar-plugin-api</artifactId>
+			<!-- minimal version of SonarQube to support. Note that the groupId was 
+				"org.codehaus.sonar" before version 5.2 -->
+			<version>${sonar.apiVersion}</version>
+			<!-- mandatory scope -->
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.sonarsource.analyzer-commons</groupId>
+			 <artifactId>sonar-xml-parsing</artifactId>
+			 <version>1.12.0.632</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom2</artifactId>
+			<version>2.0.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.25</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>2.10.0</version>
+		</dependency>
+		<dependency>
+			<groupId>jaxen</groupId>
+			<artifactId>jaxen</artifactId>
+			<version>1.1.6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.10.7</version>
+		</dependency>
+
+		<!-- Compliance JAVA 11 -->
+		<!-- API -->
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+			<version>${jaxb.api.version}</version>
+		</dependency>
+		<!-- Runtime -->
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+			<version>${jaxb.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>1.1</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<finalName>${project.artifactId}-${project.version}-mule</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
+				<artifactId>sonar-packaging-maven-plugin</artifactId>
+				<version>1.17</version>
+				<extensions>true</extensions>
+				<configuration>
+					<!-- the entry-point class that extends org.sonar.api.SonarPlugin -->
+					<pluginClass>com.mulesoft.services.tools.sonarqube.MulePlugin</pluginClass>
+					<pluginName>MulePlugin</pluginName>
+					<pluginKey>mulevalidationsonarqubeplugin-mule</pluginKey>
+					<!-- advanced properties can be set here. See paragraph "Advanced Build 
+						Properties". -->
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
